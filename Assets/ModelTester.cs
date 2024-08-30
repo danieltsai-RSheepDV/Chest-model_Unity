@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Barracuda;
-using TMPro;
 
 public class ModelTester : MonoBehaviour
 {
@@ -96,7 +95,7 @@ public class ModelTester : MonoBehaviour
                 Debug.Log($"Webcam {i}: {devices[i].name}");
             }
 
-            webCamTexture = new WebCamTexture(devices[0].name);
+            webCamTexture = new WebCamTexture(devices[0].name, 800, 608);
 
             if (webCamTexture != null)
             {
@@ -137,6 +136,11 @@ public class ModelTester : MonoBehaviour
 
     void Update()
     {
+        string s = WebCamTexture.devices[0].name;
+    }
+
+    private void LateUpdate()
+    {
         if (webCamTexture == null || !webCamTexture.isPlaying)
         {
             Debug.LogWarning("webCamTexture is null or not playing");
@@ -154,9 +158,11 @@ public class ModelTester : MonoBehaviour
             Debug.LogWarning("texture2D is not yet initialized");
             return;
         }
-
+        
         if (webCamTexture.didUpdateThisFrame)
         {
+            print("test");
+            
             // Update texture2D with new webcam frame
             Color32[] pixels = webCamTexture.GetPixels32();
             texture2D.SetPixels32(pixels);
